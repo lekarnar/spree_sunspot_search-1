@@ -6,14 +6,13 @@ Spree::Product.class_eval do
 
     conf.fields.each do |field|
       if field.class == Hash
-        field = { :opts => {} }.merge(field)
+        options = field[:opts].dup || {}
 
-        if field[:opts][:block]
-          block = field[:opts][:block]
-          field[:opts].delete(:block)
-          send field[:type], field[:name], field[:opts], &block
+        if options[:block]
+          block = options.delete(:block)
+          send field[:type], field[:name], options, &block
         else
-          send field[:type], field[:name], field[:opts]
+          send field[:type], field[:name], options
         end
       else
         text(field)
@@ -83,4 +82,3 @@ Spree::Product.class_eval do
     Spree::OptionValue.find_by_sql(sql)
   end
 end
-
