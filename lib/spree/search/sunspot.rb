@@ -24,12 +24,18 @@ module Spree
             with("#{name}_facet", send(name)) if send(name).present?
             facet("#{name}_facet")
           end
-
-          with(:price, Range.new(price.split('-').first, price.split('-').last)) if price
+          
+          if price
+            _, min_price, max_price = price.split(/[^\d]+/)
+            max_price ||= 1e5
+            with(:price, Range.new(min_price.to_f, max_price.to_f-0.001))
+          end
           facet(:price) do
             conf.price_ranges.each do |range|
               row(range) do
-                with(:price, Range.new(range.split('-').first, range.split('-').last))
+                _, min_price, max_price = range.split(/[^\d]+/)
+                max_price ||= 1e5
+                with(:price, Range.new(min_price.to_f, max_price.to_f-0.001))
               end
             end
 

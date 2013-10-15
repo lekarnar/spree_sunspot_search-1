@@ -6,7 +6,7 @@ Spree::Product.class_eval do
 
     conf.fields.each do |field|
       if field.class == Hash
-        options = field[:opts].dup || {}
+        options = field[:opts] ? field[:opts].dup : {}
 
         if options[:block]
           block = options.delete(:block)
@@ -51,9 +51,7 @@ Spree::Product.class_eval do
   end
 
   def is_active?
-    !deleted_at && available_on &&
-      (available_on <= Time.zone.now) &&
-        (Spree::Config[:allow_backorders] || count_on_hand > 0)
+    !deleted_at && available_on && (available_on <= Time.zone.now)
   end
 
   private
@@ -64,7 +62,7 @@ Spree::Product.class_eval do
       return name if range.include?(price)
       max = range.max if range.max > max
     end
-    I18n.t(:price_and_above, :price => max)
+    Spree.t(:price_and_above, :price => max)
   end
 
   def get_option_values(option_name)

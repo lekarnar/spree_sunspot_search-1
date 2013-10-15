@@ -1,6 +1,8 @@
 en:
-  sort_by: "Sort By:"
-  sort:
-    price_desc: "Price Desc"
-    price_asc: "Price Asc"
-    score_desc: "Relevance"
+  spree:
+    sort_by: "Sort By:"
+    price_range: "Price range"
+    sort:
+      price_desc: "Price Desc"
+      price_asc: "Price Asc"
+      score_desc: "Relevance"

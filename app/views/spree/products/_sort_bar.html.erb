@@ -1,5 +1,5 @@
 <%
-if not params.keys.detect { |k| k != 'controller' and k != 'action' }.nil? and params[:controller] != 'spree/taxons'
+if not params.keys.detect { |k| k != 'controller' and k != 'action' }.nil? and params[:controller] != 'spree/taxons' and Spree::Search.configuration.sort_fields.present?
 	# hate to throw this logic here (messy)
 	# I think it would be worse to create a one-time-use helper method
 	options = Spree::Search.configuration.sort_fields.map do |key, value|
@@ -14,6 +14,5 @@ if not params.keys.detect { |k| k != 'controller' and k != 'action' }.nil? and p
 		:order => params[:order] || :desc
 	})))
 %>
-<div id="product-list-sort"><%= t(:sort_by) %> <%= select_tag("product_sort_by", options) %></div>
+<div id="product-list-sort"><%= Spree.t(:sort_by) %> <%= select_tag("product_sort_by", options) %></div>
 <% end %>
-
