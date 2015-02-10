@@ -4,7 +4,7 @@ module SpreeSunspotSearch
       source_root File.expand_path('../../../templates/', __FILE__)
 
       def add_javascripts
-        append_file "app/assets/javascripts/store/all.js", "//= require store/solr_sort_by\n"
+        append_file "vendor/assets/javascripts/spree/frontend/all.js", "//= require store/solr_sort_by\n"
       end
 
       def copy_initializer_file

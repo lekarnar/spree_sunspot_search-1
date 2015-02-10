@@ -11,33 +11,32 @@ end
 taxon_rows = @searcher.sunspot.facet(:taxon_ids).rows.select { |t| display_list.include? t.instance.id }.slice(0..limit)
 
 if taxon_rows.length > 1 %>
-<h6 class="taxonomy-root"><%= Spree.t :taxon_facet %></h6>
-<ul>
-    <% taxon_rows.each do |taxon| %>
-    <%= content_tag(:li, link_to_facet(:taxon_id, taxon)) %>
-    <% end %>
-</ul>
+<h4 class="taxonomy-root"><%= Spree.t :taxon_facet %></h4>
+<div class="list-group">
+  <% taxon_rows.each do |taxon| %>
+    <%= link_to_facet(:taxon_id, taxon) %>
+  <% end %>
+</div>
 <% end %>
 
 <%# handle the rest of the facets %>
 <% facets_arr.each do |f| %>
     <% unless @searcher.sunspot.facet("#{f}_facet").rows.empty? %>
-        <h6 class="taxonomy-root"><%= Spree.t "#{f}_facet" %></h6>
-        <ul>
-            <% @searcher.sunspot.facet("#{f}_facet").rows.slice(0..limit).each do |row| %>
-            <%= content_tag(:li, link_to_facet(f, row)) %>
-            <% end %>
-        </ul>
+        <h4 class="taxonomy-root"><%= Spree.t "#{f}_facet" %></h4>
+        <div class="list-group">
+          <% @searcher.sunspot.facet("#{f}_facet").rows.slice(0..limit).each do |row| %>
+            <%= link_to_facet(f, row) %>
+          <% end %>
+        </div>
     <% end %>
 <% end %>
 
 
-<% unless @searcher.sunspot.facet(:price).rows.empty? 
-%>
-<h6 class="taxonomy-root"><%= Spree.t "price_range" %></h6>
-<ul>
+<% unless @searcher.sunspot.facet(:price).rows.empty? %>
+  <h4 class="taxonomy-root"><%= Spree.t "price_range" %></h4>
+  <div class="list-group">
     <% @searcher.sunspot.facet(:price).rows.each do |row| %>
-        <li><%= link_to(Spree.t(row.value) + " (#{row.count})", params.merge("price" => row.value)) %></li>
+      <%= link_to(Spree.t(row.value) + " (#{row.count})", params.merge("price" => row.value), :class => "list-group-item") %>
     <% end %>
-</ul>
+  </div>
 <% end %>

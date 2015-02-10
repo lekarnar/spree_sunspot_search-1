@@ -47,7 +47,7 @@ module Spree
 
           order_by sort.to_sym, order.to_sym
           with(:is_active, true)
-          keywords(query)
+          keywords(query) if query
           paginate(:page => page, :per_page => per_page)
         end
 
