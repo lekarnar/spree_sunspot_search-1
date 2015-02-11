@@ -13,6 +13,7 @@ Spree::Search.configure do |conf|
       { :type => :text, :name => :description, :opts => {:stored => true} },
       { :type => :text, :name => :sku },
       { :type => :double, :name => :price },
+      { :type => :string, :name => :currency }
     ]
     
     conf.sort_fields = {}
