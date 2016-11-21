@@ -24,14 +24,14 @@ module Spree
             with("#{name}_facet", send(name)) if send(name).present?
             facet("#{name}_facet")
           end
-          
+
           if price
             _, min_price, max_price = price.split(/[^\d]+/)
             max_price ||= 1e5
             with(:price, Range.new(min_price.to_f, max_price.to_f-0.001))
           elsif !Spree::Config.show_products_without_price
             with(:price, Range.new(0.0, 1e5-0.001))
-            with(:currency, currency)
+            # with(:currency, currency)
           end
           facet(:price) do
             conf.price_ranges.each do |range|
