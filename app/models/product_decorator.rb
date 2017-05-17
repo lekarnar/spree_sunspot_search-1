@@ -51,7 +51,7 @@ Spree::Product.class_eval do
   end
 
   def is_active?
-    !deleted_at && available_on && (available_on <= Time.zone.now)
+    !deleted_at && !discontinue_on && available_on && (available_on <= Time.zone.now)
   end
 
   private
